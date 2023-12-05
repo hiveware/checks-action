@@ -25,6 +25,7 @@ export const parseInputs = (getInput: GetInput): Inputs.Args => {
   const output_text_description_file = getInput('output_text_description_file');
 
   const name = getInput('name');
+  const threshold = Number(getInput('threshold'));
   const checkIDStr = getInput('check_id');
 
   const status = getInput('status', {required: true}) as Inputs.Status;
@@ -82,7 +83,12 @@ export const parseInputs = (getInput: GetInput): Inputs.Args => {
 
   if (output && output_text_description_file) {
     output.text_description = fs.readFileSync(output_text_description_file, 'utf8');
-    output.title = output.text_description;
+    const result = output.text_description.split('=', 1)[0].split(' ', 1)[0];
+    if (Number(result) < threshold) {
+      conclusion = Inputs.Conclusion.Failure;
+    } else {
+      conclusion = Inputs.Conclusion.Success;
+    }
   }
 
   if ((!output || !output.summary) && (annotations || images)) {
