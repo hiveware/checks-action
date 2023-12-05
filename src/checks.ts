@@ -11,7 +11,7 @@ const unpackInputs = (title: string, inputs: Inputs.Args): Record<string, unknow
   let output;
   if (inputs.output) {
     output = {
-      title: inputs.output.title ?? title,
+      title: inputs.output.text_description ?? title,
       summary: inputs.output.summary,
       text: inputs.output.text_description,
       actions: inputs.actions,
