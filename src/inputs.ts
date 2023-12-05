@@ -82,6 +82,7 @@ export const parseInputs = (getInput: GetInput): Inputs.Args => {
 
   if (output && output_text_description_file) {
     output.text_description = fs.readFileSync(output_text_description_file, 'utf8');
+    output.title = output.text_description;
   }
 
   if ((!output || !output.summary) && (annotations || images)) {
